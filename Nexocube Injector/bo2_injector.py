@@ -1567,7 +1567,7 @@ def set_cc():
 	tcp.pokemem(0x12090CAD, val)
 
 def dump_stats():
-	p = sys.argv[2] + "\\"
+	p = os.getcwd() + os.path.sep
 	f_d_stats = open(p+"DUMP_STATS.ncsf", "wb")
 	print("Dumping stats, injecotr will now freeze. See you back in 3min and a half.")
 	buf = tcp.readmem(0x120FDA40, 0x12200000-0x120FDA40)
@@ -1576,14 +1576,15 @@ def dump_stats():
 
 def restore_stats():
 	print("Select file")
-	p = sys.argv[2] + "\\"
+	p = os.getcwd() + os.path.sep
 	filename = tkFileDialog.askopenfilename(initialdir = p,title = "Select file",filetypes = (("NC's Stats File","*.ncsf"),("All Files","*.*")))
 	print(filename)
 	print("Correct file found. Restoring ...")
+	print("Your game may freeze, this is normal, just wait until the end of the process.")
 	buf = open(filename, "rb").read()
 	print(str(len(buf)))
 	tcp.writestr(0x120FDA40, buf)
-	print("Stats restored?")
+	print("Stats restored.")
 
 #0x12108800-12108990 = 0x190 - Class Data
 #0x12108A30-12108B30 = 0x100 - Class Name
